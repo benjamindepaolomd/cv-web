@@ -206,24 +206,32 @@ article + article{margin-top:1.7rem;}
   .split-side{float:right;width:340px;max-width:none;margin:0 0 1rem 2rem;}
 }
 
-/* películas, discos y libros: tres filas, todas las portadas a la misma altura */
+/* películas, discos y libros: tres filas de tres portadas. Cada fila ocupa todo el ancho de la columna, de línea a línea
+   como el texto (640px en pantalla grande, el ancho menos los 24px de margen en el teléfono), y las portadas de una
+   misma fila tienen la misma altura. El ancho de cada portada es proporcional a su relación ancho/alto (--r, x1000, en
+   el style de cada li), así que a igual altura la fila queda justo del ancho de la columna. Las filas de películas y
+   libros quedan más altas que la de discos porque los discos son cuadrados y con tres alcanza el ancho antes. */
 .gustos{margin-top:2.4rem;clear:both;}
 .shelf-group + .shelf-group{margin-top:1.9rem;}
 .shelf-label{
   font-family:var(--font-mono);font-size:.74rem;font-weight:500;letter-spacing:.08em;
   text-transform:uppercase;color:var(--ink-faint);margin:0 0 .8rem;
 }
-.shelf{
-  --h:min(170px, calc((100vw - 48px - 2rem) / 3));
-  list-style:none;margin:0;padding:0;display:flex;align-items:flex-start;gap:1rem;
-}
-.shelf figure{margin:0;width:min-content;}
-.shelf img{display:block;height:var(--h);width:auto;border-radius:6px;border:1px solid var(--line);}
+.shelf{list-style:none;margin:0;padding:0;display:flex;align-items:flex-start;gap:1rem;}
+.shelf li{flex:var(--r) 1 0%;min-width:0;}
+.shelf figure{margin:0;}
+/* el marco es un contorno hacia adentro (no un borde) para que no sume píxeles y las portadas de una fila midan lo mismo de alto */
+.shelf img{display:block;width:100%;height:auto;border-radius:6px;outline:1px solid var(--line);outline-offset:-1px;}
 .shelf figcaption{margin-top:.5rem;font-size:.78rem;line-height:1.35;color:var(--ink-soft);}
 
-/* firma: esquina inferior derecha, encima de la última línea de la página (sin ocupar espacio propio) */
+/* firma: esquina inferior derecha, encima de la última línea de la página (sin ocupar espacio propio).
+   Se le reserva su ancho a la derecha de los botones del pie (.footer-actions): si no entran al lado de la firma, pasan
+   a la línea de abajo. Así en el teléfono la firma no tapa el botón "Atajos de teclado", como pasa en pantalla grande,
+   donde los botones entran de sobra. En pantallas muy angostas la firma se achica (38vw) para no chocar con ellos. */
+footer.signed{--sig:min(150px,38vw);}
+footer.signed .footer-actions{padding-right:calc(var(--sig) + 1rem);}
 .signature{position:absolute;right:0;bottom:1rem;z-index:3;pointer-events:none;}
-.signature img{width:150px;height:auto;display:block;mix-blend-mode:multiply;}
+.signature img{width:var(--sig,150px);height:auto;display:block;mix-blend-mode:multiply;}
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]) .signature img{mix-blend-mode:screen;filter:invert(1);}
 }

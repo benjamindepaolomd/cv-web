@@ -16,7 +16,7 @@ Sitio estático de dos páginas, sin dependencias ni build. Se abre haciendo dob
 ├── images/
 │   ├── me.jpg            # foto del avatar (perfil)
 │   ├── firma.png         # firma (pie de "Sobre mí")
-│   └── gustos/           # portadas de películas, discos y libros (webp de 360 px de alto, una en avif)
+│   └── gustos/           # portadas de películas, discos y libros (webp de hasta 600 px de alto, una en avif)
 ├── .nojekyll             # le dice a GitHub Pages que publique los archivos tal cual
 ├── .gitignore            # deja afuera de GitHub lo que no es del sitio
 │
@@ -30,8 +30,16 @@ Sitio estático de dos páginas, sin dependencias ni build. Se abre haciendo dob
 
 En "Sobre mí" los reels de Instagram flotan a la derecha (`.split-side`, en pantallas de 880 px o más) y el
 texto corre continuo y los rodea: junto al reel es más angosto y apenas el reel termina vuelve a ocupar todo el
-ancho. En pantallas más chicas el reel va debajo del párrafo. Las portadas van en tres filas (`.shelf`), todas a
-la misma altura.
+ancho. En pantallas más chicas el reel va debajo del párrafo.
+
+Las portadas van en tres filas de tres (`.shelf`). Cada fila ocupa todo el ancho de la columna, de línea a línea como
+el texto, y las portadas de una misma fila tienen la misma altura: el ancho de cada una es proporcional a su
+relación ancho/alto, que va en el `style="--r:..."` de cada `<li>` (ancho / alto x 1000, por ejemplo 675 para una
+portada de 405 x 600). Al agregar una portada hay que poner ese número. Por eso las filas de películas y libros
+quedan más altas que la de discos: los discos son cuadrados y con tres alcanza el ancho antes.
+
+En el pie de "Sobre mí" la firma flota abajo a la derecha (`footer.signed`). Los botones del pie reservan a su derecha
+el ancho de la firma (variable `--sig`), así que en el teléfono pasan a dos líneas en vez de quedar tapados por ella.
 
 Las dos páginas cargan el mismo CSS y el mismo JS, así que cualquier cambio de estilo o de
 comportamiento se hace una sola vez y aparece en las dos.
