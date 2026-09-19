@@ -11,8 +11,7 @@
   var EMAIL = 'benjamindepaolo8@gmail.com';
   var LINKEDIN = 'https://www.linkedin.com/in/bdepaolo';
   var TIKTOK = 'https://www.tiktok.com/@benjamin.de.paolo';
-  /* PENDIENTE: reemplazar por https://wa.me/<código de país + número>, sin + ni espacios (ej. https://wa.me/549XXXXXXXXXX) */
-  var WHATSAPP = 'https://wa.me/';
+  var WHATSAPP = 'https://wa.me/5492625533917';
   var TALK_FROM = 8, TALK_TO = 18;   /* horario de Mendoza en el que "Hablemos" abre WhatsApp: 8:00 a 18:00 */
   var MAP_QUERY = 'General Alvear, Mendoza, Argentina';
 
@@ -81,23 +80,42 @@
   }, {passive:true});
 
   /* ---------- foco de palabras al scrollear ---------- */
+  /* Perfil: las descripciones (.desc). Sobre mí: los párrafos del texto, salvo los links de "Ver en ..." */
   var words = [];
-  if(!prefersReducedMotion()){
-    document.querySelectorAll('.desc').forEach(function(p){
-      var frag = document.createDocumentFragment();
-      p.textContent.split(/(\s+)/).forEach(function(tok){
-        if(tok.trim() === ''){
-          frag.appendChild(document.createTextNode(tok));
-        } else {
-          var span = document.createElement('span');
-          span.className = 'word';
-          span.textContent = tok;
-          frag.appendChild(span);
-        }
-      });
-      p.textContent = '';
-      p.appendChild(frag);
+  function wordSpan(){
+    var s = document.createElement('span');
+    s.className = 'word';
+    return s;
+  }
+  /* Envuelve cada palabra en un span. Lo que va pegado a una palabra sin espacio (el pin 📍 y la coma que le sigue)
+     queda dentro del mismo span, así el pin se mueve con su palabra y no se separa al cortar la línea. */
+  function wrapWords(block){
+    var frag = document.createDocumentFragment();
+    var cur = null;
+    function flush(){ if(cur){ frag.appendChild(cur); cur = null; } }
+    Array.prototype.slice.call(block.childNodes).forEach(function(node){
+      if(node.nodeType === 3){
+        node.nodeValue.split(/(\s+)/).forEach(function(tok){
+          if(tok === '') return;
+          if(tok.trim() === ''){
+            flush();
+            frag.appendChild(document.createTextNode(tok));
+          } else {
+            if(!cur) cur = wordSpan();
+            cur.appendChild(document.createTextNode(tok));
+          }
+        });
+      } else if(node.nodeType === 1){
+        if(!cur) cur = wordSpan();
+        cur.appendChild(node);
+      }
     });
+    flush();
+    block.textContent = '';
+    block.appendChild(frag);
+  }
+  if(!prefersReducedMotion()){
+    document.querySelectorAll('.desc, .prose > p:not(.video-fallback), .prose .split > p').forEach(wrapWords);
     words = Array.prototype.slice.call(document.querySelectorAll('.word'));
   }
   function updateWordFocus(){
@@ -200,9 +218,12 @@
       return new Date().getHours();
     }
   }
-  function talk(){
+  function inTalkHours(){
     var h = mendozaHour();
-    if(h >= TALK_FROM && h < TALK_TO){
+    return h >= TALK_FROM && h < TALK_TO;
+  }
+  function talk(){
+    if(inTalkHours()){
       window.open(WHATSAPP, '_blank', 'noopener');
     } else {
       toast('Probablemente por el horario me haya desconectado del celular. Mañana te contesto.', true);
@@ -210,6 +231,19 @@
   }
   var talkBtn = $('talk-btn');
   if(talkBtn) talkBtn.addEventListener('click', talk);
+
+  /* luz de estado del botón: verde dentro del horario, roja fuera; se revisa cada 30 s, igual que el reloj */
+  var statusDot = $('status-dot');
+  function updateStatus(){
+    if(!statusDot) return;
+    var open = inTalkHours();
+    statusDot.setAttribute('data-state', open ? 'open' : 'closed');
+    if(talkBtn) talkBtn.title = open ? 'Disponible por WhatsApp (de ' + TALK_FROM + ' a ' + TALK_TO + ', hora de Mendoza)' : 'Fuera de horario (de ' + TALK_FROM + ' a ' + TALK_TO + ', hora de Mendoza)';
+  }
+  if(statusDot){
+    updateStatus();
+    setInterval(updateStatus, 30000);
+  }
 
   /* ---------- copiar email / vCard ---------- */
   function copyEmail(){

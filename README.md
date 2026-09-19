@@ -48,9 +48,10 @@ la misma copia sirve para las tres páginas:
 | Spotlight que sigue al cursor | `#spotlight` |
 | Botones magnéticos | clase `.magnetic` |
 | Aparición al scrollear | clase `.reveal` |
-| Foco de palabras al scrollear | clase `.desc` |
+| Foco de palabras al scrollear (descripciones del perfil y párrafos de "Sobre mí") | clase `.desc` o párrafos de `.prose` |
 | Reloj de Mendoza | `#local-clock` |
 | Botón "Hablemos" (WhatsApp de 8 a 18, aviso fuera de horario) | `#talk-btn` |
+| Luz de estado del botón (verde de 8 a 18, roja fuera de horario, pulsante) | `#status-dot` |
 | Pin de Google Maps (ventana emergente con General Alvear) | `#map-btn` |
 | Avisos flotantes | `#toast` |
 | Copiar email / descargar vCard | `#copy-email-btn`, `#vcard-btn` |
@@ -83,10 +84,10 @@ notas ni `_archivo/`.
 
 ## Pendiente
 
-- **Antes de publicar**: cargar el link de WhatsApp, variable `WHATSAPP` al principio de `assets/site.js`
-  (formato `https://wa.me/<código de país + número>`, sin `+` ni espacios). Mientras no esté, el botón "Hablemos"
-  abre la portada de WhatsApp en horario. El horario en que abre WhatsApp (hora de Mendoza) está en
-  `TALK_FROM` / `TALK_TO`.
+El link de WhatsApp está en la variable `WHATSAPP` al principio de `assets/site.js` (formato
+`https://wa.me/<código de país + número>`, sin `+` ni espacios). El horario en que "Hablemos" abre WhatsApp y en que
+la luz está verde (hora de Mendoza) está en `TALK_FROM` / `TALK_TO`.
+
 - Opcional: sumar el link a Letterboxd (en `otras-cosas.html`, bloque `#cap-gustos`).
 - Opcional, cuando se conozca la dirección final: poner la dirección completa en el `<link rel="canonical">` de
   cada página.

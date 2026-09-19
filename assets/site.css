@@ -136,11 +136,24 @@ nav{display:flex;align-items:center;gap:.4rem;font-size:.9rem;font-weight:500;}
 .intro-text p{color:var(--ink-soft);font-size:1rem;line-height:1.75;max-width:36ch;margin:0;}
 .talk-row{display:flex;align-items:center;flex-wrap:wrap;gap:.9rem;margin-top:1rem;}
 .talk-btn{
+  display:inline-flex;align-items:center;gap:.55rem;
   font:inherit;font-family:var(--font-sans);font-size:.9rem;font-weight:600;
   color:var(--bg);background:var(--ink);border:1px solid var(--ink);border-radius:999px;
   padding:.5rem 1.2rem;cursor:pointer;transition:opacity .15s,transform .2s ease-out;
 }
 .talk-btn:hover{opacity:.85;}
+/* luz de estado: verde de 8 a 18 (hora de Mendoza), roja fuera de horario. Sin data-state (antes de que corra el JS) no se ve */
+.status-dot{
+  --dot:#22c55e;
+  position:relative;flex-shrink:0;width:8px;height:8px;border-radius:50%;background:var(--dot);
+}
+.status-dot[data-state="closed"]{--dot:#ef4444;}
+.status-dot:not([data-state]){visibility:hidden;}
+.status-dot::after{
+  content:"";position:absolute;inset:0;border-radius:50%;background:var(--dot);
+  animation:dotPulse 1.8s ease-out infinite;
+}
+@keyframes dotPulse{from{transform:scale(1);opacity:.6;}to{transform:scale(2.7);opacity:0;}}
 .clock{font-family:var(--font-mono);font-size:.78rem;color:var(--ink-faint);line-height:1.4;}
 .avatar{
   width:120px;height:120px;border-radius:999px;flex-shrink:0;
@@ -333,6 +346,7 @@ footer a:hover{text-decoration-color:var(--decoration-hover);}
 @media (prefers-reduced-motion: reduce){
   .fade{animation:none !important;opacity:1 !important;transform:none !important;}
   .reveal,.reveal article,.word{opacity:1 !important;filter:none !important;transform:none !important;transition:none !important;}
+  .status-dot::after{animation:none;display:none;}
   html{scroll-behavior:auto;}
   ::view-transition-new(root){animation:none;clip-path:none;}
 }
