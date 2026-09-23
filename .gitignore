@@ -1,5 +1,24 @@
-# Material de trabajo: no forma parte del sitio publicado
-_archivo/
-Cambios.txt
-Cambios-HECHOS.txt
-.claude/
+# Solo archivos del sitio y configuración del repositorio
+/*
+!/.gitattributes
+!/.gitignore
+!/.nojekyll
+!/CNAME
+!/README.md
+!/index.html
+!/sobre-mi.html
+!/404.html
+!/assets/
+!/images/
+!/proyectos/
+
+# Archivos locales y copias de seguridad
+**/.DS_Store
+**/Thumbs.db
+**/desktop.ini
+**/*.bak
+**/*.tmp
+**/*.log
+**/*~
+**/.env
+**/.env.*
