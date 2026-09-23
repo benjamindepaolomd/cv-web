@@ -1,5 +1,19 @@
 (() => {
   'use strict';
+  // Keep the home URL clean on the web and support opening the files locally.
+  if (location.protocol === 'http:' || location.protocol === 'https:') {
+    if (location.pathname.endsWith('/index.html')) {
+      history.replaceState(history.state, '', location.pathname.slice(0, -10) + location.search + location.hash);
+    }
+  } else if (location.protocol === 'file:') {
+    document.querySelectorAll('a[href]').forEach(link => {
+      const url = new URL(link.href);
+      if (url.protocol === 'file:' && url.pathname.endsWith('/')) {
+        url.pathname += 'index.html';
+        link.href = url.href;
+      }
+    });
+  }
   const root = document.documentElement;
   const themeButton = document.getElementById('theme-toggle');
   const preference = window.matchMedia('(prefers-color-scheme: dark)');
