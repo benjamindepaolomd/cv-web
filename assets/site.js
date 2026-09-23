@@ -114,7 +114,7 @@
     block.textContent = '';
     block.appendChild(frag);
   }
-  if(!prefersReducedMotion()){
+  if(!prefersReducedMotion() && !document.body.classList.contains('portfolio')){
     document.querySelectorAll('.desc, .prose > p:not(.video-fallback), .prose .split > p').forEach(wrapWords);
     words = Array.prototype.slice.call(document.querySelectorAll('.word'));
   }
@@ -335,7 +335,7 @@
     /* navegación entre páginas */
     if(page === 'otras-cosas'){
       cmds.push({label:'Volver al perfil', hint:'index', action:function(){ location.href = 'index.html'; }});
-    } else {
+    } else if(page !== 'index') {
       cmds.push({label:'Sobre mí', hint:'Página', action:function(){ location.href = 'otras-cosas.html'; }});
     }
 

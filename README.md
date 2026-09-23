@@ -1,5 +1,30 @@
 # Sitio personal de Benjamin De Paolo
 
+## Portfolio minimalista
+
+Diseño inspirado en tmalamud.com: columna de 640 px, foto circular, tipografía Geist, proyectos como enlaces de texto y temas claro y oscuro. La portada prioriza los proyectos; cada uno tiene una página propia. `sobre-mi.html` reúne la trayectoria, formación e intereses.
+
+El sitio funciona sin instalar dependencias. Los HTML generados se pueden abrir directamente o publicar en un hosting estático, incluyendo la carpeta `proyectos/`.
+
+- `index.html`: presentación y cinco proyectos.
+- `proyectos/*.html`: detalle, participación y enlaces reales de cada proyecto.
+- `sobre-mi.html`: recorrido e intereses.
+- `assets/minimal.css` y `assets/minimal.js`: estilos, tema persistente y copia de email.
+- `scripts/build.mjs`: contenido y plantillas de las siete páginas. Después de editarlo, ejecutar `node scripts/build.mjs`.
+- `scripts/serve.mjs`: vista local con `node scripts/serve.mjs`, en `http://127.0.0.1:4173`.
+
+La navegación y los contenidos funcionan sin JavaScript. El tema sigue al sistema hasta elegir uno; la preferencia se comparte entre páginas. Incluye foco visible, enlace para saltar al contenido, adaptación móvil y respeto por movimiento reducido. PreDetect incluye el enlace a su sitio web. LUNA se presenta como «Próximamente», con su dominio como texto hasta que esté listo. INNOVADUCATE enlaza a su web desde la portada, la experiencia y las fichas de ambos proyectos.
+
+Las páginas anteriores `otras-cosas.html` y `404.html` mantienen sus recursos compartidos. La documentación que sigue corresponde a las versiones anteriores.
+
+## Historial: perfil unificado
+
+`index.html` reúne ahora el CV, los proyectos de IA, otras actividades, los intereses y el contacto. Conserva los recursos compartidos y agrega `assets/portfolio.css` y `assets/portfolio.js` para su diseño adaptable, navegación por secciones y contenido multimedia en ventanas emergentes. Los reproductores se cargan al abrir su ventana y se descargan al cerrarla. El diálogo se cierra con el botón, Escape o un clic afuera, y devuelve el foco al botón de origen.
+
+`otras-cosas.html` se conserva como página anterior para mantener sus enlaces existentes. La navegación del nuevo index es interna; la paleta de comandos incluye todas sus secciones. No se requieren dependencias ni compilación. Se puede abrir `index.html` directamente o servir la carpeta con un servidor estático.
+
+La documentación siguiente describe también la estructura y los comportamientos de la versión anterior.
+
 Sitio estático de dos páginas, sin dependencias ni build. Se abre haciendo doble clic en
 `index.html` y se publica subiendo la carpeta tal cual a GitHub Pages o Cloudflare Pages.
 
